@@ -120,7 +120,9 @@ function renderTalentRows() {
                          data-tt-title="${t.name}" 
                          data-tt-content="${t.effect}">
                         <div class="card-header">
-                            <div class="card-icon">${getIconForTalent(t.name)}</div>
+                            <div class="card-icon">
+                                ${t.iconUrl ? `<img src="${t.iconUrl}" alt="${t.name}">` : `<span>${getFallbackIcon(t.name)}</span>`}
+                            </div>
                         </div>
                         <div class="card-separator"></div>
                         <div class="card-footer">
@@ -138,7 +140,7 @@ function renderTalentRows() {
     });
 }
 
-function getIconForTalent(name) {
+function getFallbackIcon(name) {
     if (name.includes('攻撃') || name.includes('火力') || name.includes('型')) return '⚔️';
     if (name.includes('守') || name.includes('防御') || name.includes('壁')) return '🛡️';
     if (name.includes('支援') || name.includes('バフ') || name.includes('にゃ')) return '✨';
@@ -152,7 +154,6 @@ function translateRole(role) {
     return m[role] || role;
 }
 
-// ... Additional helper functions (calculateFullSynergy, etc.) duplicated from common base to ensure consistency
 function renderAnalysis(details) {
     const container = document.getElementById('synergy-analysis-content');
     if (details.length === 0) {
