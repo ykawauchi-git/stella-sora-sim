@@ -48,6 +48,7 @@ h1 {
     padding: 25px;
     margin-bottom: 30px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    overflow-x: auto;
 }
 
 .char-build-cards {
@@ -135,44 +136,58 @@ h1 {
 
 .t-icon-list {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     flex-wrap: wrap;
 }
 
-.t-icon {
+.t-card-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    gap: 6px;
+    cursor: help;
+    transition: transform 0.2s;
+}
+
+.t-card-mini:hover {
+    transform: translateY(-4px) scale(1.05);
+}
+
+.t-icon-inner {
     width: 44px;
     height: 44px;
-    border-radius: 6px;
-    cursor: help;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.5rem;
-    text-align: center;
-    line-height: 1;
-    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 0.8rem;
+    font-weight: bold;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
 }
 
-.t-icon:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 10px var(--primary);
-}
-
-.t-icon.pink {
+.t-card-mini.pink .t-icon-inner {
     border-color: #ff4db8;
-    background: linear-gradient(135deg, #ff4db833, #ff4db811);
+    background: linear-gradient(135deg, #ff4db866, #ff4db822);
 }
 
-.t-icon.blue {
+.t-card-mini.blue .t-icon-inner {
     border-color: #4de0ff;
-    background: linear-gradient(135deg, #4de0ff33, #4de0ff11);
+    background: linear-gradient(135deg, #4de0ff66, #4de0ff22);
 }
 
-.t-icon.yellow {
+.t-card-mini.yellow .t-icon-inner {
     border-color: #ffd700;
-    background: linear-gradient(135deg, #ffd70033, #ffd70011);
+    background: linear-gradient(135deg, #ffd70066, #ffd70022);
+}
+
+.t-name-label {
+    font-size: 0.55rem;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.1;
+    font-weight: 500;
 }
 
 /* Tooltip */
@@ -180,19 +195,22 @@ h1 {
     position: fixed;
     pointer-events: none;
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--primary);
-    border-radius: 8px;
-    padding: 12px;
-    width: 220px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    padding: 14px;
+    width: 240px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
     opacity: 0;
+    transform: scale(0.95) translateY(10px);
     visibility: hidden;
-    transition: opacity 0.2s;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .tooltip-box.visible {
     opacity: 1;
+    transform: scale(1) translateY(0);
     visibility: visible;
 }
 

@@ -12,6 +12,7 @@ function initSimulator() {
 // --- Tooltip Logic ---
 function initTooltip() {
     const box = document.getElementById('tooltip-box');
+
     document.addEventListener('mouseover', (e) => {
         const target = e.target.closest('[data-tt-title]');
         if (target) {
@@ -23,13 +24,22 @@ function initTooltip() {
 
     document.addEventListener('mousemove', (e) => {
         if (box.classList.contains('visible')) {
-            box.style.left = (e.clientX + 15) + 'px';
-            box.style.top = (e.clientY + 15) + 'px';
+            const x = e.clientX + 20;
+            const y = e.clientY + 20;
+
+            const boxWidth = box.offsetWidth;
+            const boxHeight = box.offsetHeight;
+            const winWidth = window.innerWidth;
+            const winHeight = window.innerHeight;
+
+            box.style.left = (x + boxWidth > winWidth ? e.clientX - boxWidth - 20 : x) + 'px';
+            box.style.top = (y + boxHeight > winHeight ? e.clientY - boxHeight - 20 : y) + 'px';
         }
     });
 
     document.addEventListener('mouseout', (e) => {
-        if (e.target.closest('[data-tt-title]')) {
+        const target = e.target.closest('[data-tt-title]');
+        if (target) {
             box.classList.remove('visible');
         }
     });
@@ -105,10 +115,11 @@ function renderTalentRows() {
             <div class="t-row-label">おすすめ${char.name}素質</div>
             <div class="t-icon-list">
                 ${talents.map(t => `
-                    <div class="t-icon ${t.type}" 
+                    <div class="t-card-mini ${t.type}" 
                          data-tt-title="${t.name}" 
                          data-tt-content="${t.effect}">
-                        ${t.name.substring(0, 2)}
+                        <div class="t-icon-inner">${t.name.substring(0, 1)}</div>
+                        <div class="t-name-label">${t.name}</div>
                     </div>
                 `).join('')}
             </div>
