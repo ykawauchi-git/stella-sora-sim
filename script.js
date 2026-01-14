@@ -146,6 +146,9 @@ function animateValue(obj, start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
+// Store selected build ID for each character: { charId: buildId }
+let selectedBuilds = {};
+
 function renderTalentRows() {
     const container = document.getElementById('talent-rows-container');
     container.innerHTML = '';
@@ -153,12 +156,44 @@ function renderTalentRows() {
 
     selectedIds.forEach((id, idx) => {
         const char = STELLA_DATA.characters.find(c => c.id === id);
-        const talents = char.recommendedTalents || [];
+        let talents = [];
+        let buildSelectorHTML = '';
+
+        // Check if character has specialized builds
+        if (char.talentBuilds && char.talentBuilds.length > 0) {
+            // Default to first build if not selected
+            if (!selectedBuilds[id]) {
+                selectedBuilds[id] = char.talentBuilds[0].id;
+            }
+
+            const activeBuild = char.talentBuilds.find(b => b.id === selectedBuilds[id]) || char.talentBuilds[0];
+            talents = activeBuild.cards;
+
+            // Create selector dropdown/tabs
+            buildSelectorHTML = `
+                <div class="build-selector">
+                    <select onchange="switchBuild('${id}', this.value)">
+                        ${char.talentBuilds.map(b => `
+                            <option value="${b.id}" ${b.id === activeBuild.id ? 'selected' : ''}>
+                                ${b.name}
+                            </option>
+                        `).join('')}
+                    </select>
+                    <div class="build-desc">${activeBuild.desc}</div>
+                </div>
+            `;
+        } else {
+            // Fallback to recommendedTalents
+            talents = char.recommendedTalents || [];
+        }
 
         const row = document.createElement('div');
         row.className = 't-row';
         row.innerHTML = `
-            <div class="t-row-label">おすすめ${char.name}素質</div>
+            <div class="t-row-info">
+                <div class="t-row-label">おすすめ${char.name}素質</div>
+                ${buildSelectorHTML}
+            </div>
             <div class="t-icon-list">
                 ${talents.map(t => `
                     <div class="stella-card ${t.type}" 
@@ -183,6 +218,12 @@ function renderTalentRows() {
         `;
         container.appendChild(row);
     });
+}
+
+function switchBuild(charId, buildId) {
+    selectedBuilds[charId] = buildId;
+    renderTalentRows();
+    updateUI(); // Re-calculate power score based on new build optimization (optional feature)
 }
 
 function getFallbackIcon(name) {

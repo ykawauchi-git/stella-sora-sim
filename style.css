@@ -129,23 +129,64 @@ h1 {
 
 .t-row {
     display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
     border-radius: 12px;
     background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.t-row-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
 }
 
 .t-row-label {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    opacity: 0.8;
-    width: 140px;
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+    padding-left: 10px;
+}
+
+.build-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.build-selector select {
+    background: rgba(0, 242, 255, 0.1);
+    border: 1px solid var(--primary);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.build-selector select option {
+    background: #111;
+    color: #fff;
+}
+
+.build-desc {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 300px;
+    text-align: right;
 }
 
 .t-icon-list {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
 }
 
