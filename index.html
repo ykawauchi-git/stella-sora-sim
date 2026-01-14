@@ -21,13 +21,13 @@
 
         <div class="main-layout">
             <div class="content-left">
-                <!-- Party Build Guide (Game8 Style) -->
+                <!-- Party Build Guide -->
                 <div class="build-guide-panel" id="build-guide-panel">
                     <div class="section-header">
                         <h2>推奨ビルド編成</h2>
+                        <button class="btn-clear" onclick="resetSimulator()">リセット</button>
                     </div>
 
-                    <!-- Top Character Cards -->
                     <div class="char-build-cards">
                         <div class="slot-card" id="slot-card-0">
                             <div class="badge">主力</div>
@@ -49,17 +49,13 @@
                         </div>
                     </div>
 
-                    <!-- Talent Rows -->
-                    <div class="talent-rows" id="talent-rows-container">
-                        <!-- Rendered by JS -->
-                    </div>
+                    <div class="talent-rows" id="talent-rows-container"></div>
                 </div>
 
                 <!-- Star Tower Section -->
                 <div class="tower-section">
                     <div class="section-header">
                         <h2>星の塔：取得カード</h2>
-                        <button class="btn-clear" onclick="clearTowerCards()">リセット</button>
                     </div>
                     <div class="tower-grid" id="tower-grid"></div>
                     <div class="recommended-cards" id="rec-tower-cards">
@@ -68,9 +64,38 @@
                     </div>
                 </div>
 
-                <!-- Selection Grid -->
+                <!-- Selection Area with Filters -->
                 <div class="selection-area">
-                    <h2>キャラクター選択</h2>
+                    <div class="section-header">
+                        <h2>キャラクター選択</h2>
+                    </div>
+
+                    <div class="filter-controls">
+                        <div class="filter-group">
+                            <div class="filter-buttons" id="filter-attr">
+                                <button class="active" data-key="attr" data-value="all">全て</button>
+                                <button data-key="attr" data-value="fire">火</button>
+                                <button data-key="attr" data-value="water">水</button>
+                                <button data-key="attr" data-value="wind">風</button>
+                                <button data-key="attr" data-value="light">光</button>
+                                <button data-key="attr" data-value="dark">闇</button>
+                                <button data-key="attr" data-value="earth">地</button>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <div class="filter-buttons" id="filter-role">
+                                <button class="active" data-key="role" data-value="all">全役割</button>
+                                <button data-key="role" data-value="main">主力</button>
+                                <button data-key="role" data-value="support">支援</button>
+                            </div>
+                            <div class="filter-buttons" id="filter-rarity" style="margin-left: 10px;">
+                                <button class="active" data-key="rarity" data-value="all">全レア</button>
+                                <button data-key="rarity" data-value="SSR">SSR</button>
+                                <button data-key="rarity" data-value="SR">SR</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="char-grid" id="char-grid"></div>
                 </div>
             </div>
@@ -78,9 +103,18 @@
             <div class="content-right">
                 <!-- Result Dashboard -->
                 <div class="result-panel">
-                    <h2 id="synergy-title">編成を選択してください</h2>
+                    <div class="synergy-header">
+                        <h2 id="synergy-title">編成を選択</h2>
+                        <div class="synergy-score">期待値 <span id="score-text">0</span>%</div>
+                    </div>
                     <div class="score-bar">
                         <div class="score-fill" id="score-fill"></div>
+                    </div>
+
+                    <div class="power-display">
+                        <div class="power-label">推定パーティー戦闘力</div>
+                        <div class="power-value" id="power-value">0</div>
+                        <div class="power-desc">※シナジー・素質・属性補正による理論値</div>
                     </div>
 
                     <div class="analysis-box">
