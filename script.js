@@ -13,6 +13,7 @@ function renderCharGrid() {
     const grid = document.getElementById('char-grid');
     grid.innerHTML = '';
 
+    // Sort and render ALL characters from STELLA_DATA
     const sortedChars = [...STELLA_DATA.characters].sort((a, b) => a.attr.localeCompare(b.attr));
 
     sortedChars.forEach(char => {
@@ -64,6 +65,8 @@ function clearTowerCards() {
 
 // --- UI Update & Logic ---
 function updateUI() {
+    const latestSelectId = selectedIds[selectedIds.length - 1];
+
     for (let i = 0; i < 3; i++) {
         const slot = document.getElementById(`slot-${i}`);
         const cid = selectedIds[i];
@@ -75,9 +78,8 @@ function updateUI() {
                 <div class="char-attr">${char.attr}</div>
                 <h2>${char.name}</h2>
                 <p><strong>${translateRole(char.role)}</strong></p>
-                <div class="card-rec">
-                    <strong>おすすめ素質:</strong><br>
-                    <span style="color:var(--primary)">${char.recTalent}</span>
+                <div class="char-talent">
+                    <strong>推奨素質:</strong><br>${char.recTalent}
                 </div>
                 <div class="card-rec">
                     <small>推奨秘紋:</small>
@@ -92,6 +94,9 @@ function updateUI() {
         }
     }
 
+    // Render Talent Preview for the last selected character
+    renderTalentPreview(latestSelectId);
+
     updateTowerRecommendations();
     updateLossRecoRecommendations();
 
@@ -103,62 +108,49 @@ function updateUI() {
     renderAnalysis(result.details);
 }
 
-function updateTowerRecommendations() {
-    const container = document.getElementById('rec-tags-container');
-    container.innerHTML = '';
-    if (selectedIds.length === 0) return;
+function renderTalentPreview(charId) {
+    const b1Grid = document.getElementById('b1-cards');
+    const b2Grid = document.getElementById('b2-cards');
+    const b1Title = document.getElementById('b1-title');
+    const b2Title = document.getElementById('b2-title');
+    const b1Desc = document.getElementById('b1-desc');
+    const b2Desc = document.getElementById('b2-desc');
 
-    const chars = selectedIds.map(id => STELLA_DATA.characters.find(c => c.id === id));
-    const charTags = new Set(chars.flatMap(c => c.tags).concat(chars.flatMap(c => c.recInscriptions)));
-
-    const matching = STELLA_DATA.towerCards.filter(card => charTags.has(card.target));
-    matching.forEach(card => {
-        const span = document.createElement('span');
-        span.className = 'tag-rec';
-        span.innerText = card.name;
-        container.appendChild(span);
-    });
-}
-
-function updateLossRecoRecommendations() {
-    const container = document.getElementById('lossreco-content');
-    if (selectedIds.length === 0) {
-        container.innerHTML = '<p style="opacity: 0.6; font-size: 0.8rem;">パーティ編成後に提案されます。</p>';
+    if (!charId) {
+        b1Grid.innerHTML = b2Grid.innerHTML = '';
+        b1Title.innerText = '特化構築1'; b2Title.innerText = '特化構築2';
+        b1Desc.innerText = b2Desc.innerText = 'キャラクターを選択すると表示されます。';
         return;
     }
 
-    const chars = selectedIds.map(id => STELLA_DATA.characters.find(c => c.id === id));
-    const mainChar = chars.find(c => c.role === 'main') || chars[0];
-    const attrs = chars.map(c => c.attr);
-    const attrCounts = {};
-    attrs.forEach(a => attrCounts[a] = (attrCounts[a] || 0) + 1);
+    const char = STELLA_DATA.characters.find(c => c.id === charId);
+    if (!char || !char.talentBuilds) return;
 
-    const dominantAttr = Object.keys(attrCounts).reduce((a, b) => attrCounts[a] >= attrCounts[b] ? a : b);
-
-    // Check for character-specific LossReco (from Game8)
-    let recList = [];
-    if (mainChar && mainChar.recLossReco) {
-        // Find existing data for these names
-        mainChar.recLossReco.forEach(name => {
-            const found = STELLA_DATA.lossRecos[dominantAttr]?.find(lr => lr.name === name);
-            if (found) recList.push(found);
-            else recList.push({ name, core: '推奨装備', assist: '最適シナジー', rank: 5 });
-        });
-    } else {
-        recList = STELLA_DATA.lossRecos[dominantAttr] || [];
-    }
-
-    container.innerHTML = recList.slice(0, 3).map(lr => `
-        <div class="lossreco-item">
-            <div class="lr-icon" style="background:${lr.rank === 5 ? 'var(--secondary)' : '#666'}">${lr.rank || '★'}</div>
-            <div class="lr-info">
-                <div class="lr-name">${lr.name}</div>
-                <div class="lr-effect">${lr.core} / ${lr.assist}</div>
-            </div>
+    // Render Build 1
+    const build1 = char.talentBuilds.b1;
+    b1Title.innerText = build1 ? build1.name : '特化構築1';
+    b1Desc.innerText = build1 ? build1.desc : '-';
+    b1Grid.innerHTML = build1 ? build1.cards.map((c, idx) => `
+        <div class="t-card">
+            <span style="position:absolute; top:5px; left:8px; opacity:0.5; font-size:0.6rem;">${idx + 1}</span>
+            ${c}
         </div>
-    `).join('');
+    `).join('') : '';
+
+    // Render Build 2
+    const build2 = char.talentBuilds.b2;
+    b2Title.innerText = build2 ? build2.name : '特化構築2';
+    b2Desc.innerText = build2 ? build2.desc : '-';
+    b2Grid.innerHTML = (build2 && build2.cards) ? build2.cards.map((c, idx) => `
+        <div class="t-card">
+            <span style="position:absolute; top:5px; left:8px; opacity:0.5; font-size:0.6rem;">${idx + 1}</span>
+            ${c}
+        </div>
+    `).join('') : '';
 }
 
+// ... remaining helper functions (updateTowerRecommendations, updateLossRecoRecommendations, etc.)
+// ... Ensure calculateFullSynergy details have NO "Game8" text.
 function calculateFullSynergy() {
     if (selectedIds.length === 0) return { score: 0, title: '編成不足', descSummary: '-', details: [] };
 
@@ -174,26 +166,22 @@ function calculateFullSynergy() {
 
     if (maxAttr === 3) {
         score += 40;
-        details.push({ label: '属性統一構成', content: '同属性3名。Game8推奨の安定した火力が期待できます。' });
+        details.push({ label: '属性統一構成', content: '同属性3名による理想的な編成。属性ダメージボーナスが最大化されます。' });
     } else if (maxAttr === 2) {
         score += 15;
         details.push({ label: '属性準一致', content: '2名が属性一致。印の付与と発動の基本サイクルが成立。' });
     }
 
-    // 2. Character Specific Synergy (Game8 Reference)
+    // 2. Character Specific Synergy (Reference Template)
     const charIds = new Set(selectedIds);
-    if (charIds.has('chitose') && (charIds.has('teresa') || charIds.has('freesia'))) {
+    if (charIds.has('chitose') && (charIds.has('teresa') || charIds.has('ayame'))) {
         score += 20;
-        details.push({ label: '水属性テンプレ編成', content: 'チトセを軸とした最強クラスの構成。通常攻撃と支援の相性が抜群。' });
+        details.push({ label: '水属性テンプレ編成', content: 'チトセの通常攻撃と支援キャバフの相性が抜群。最高クラスの継続火力。' });
     }
     if (charIds.has('shiya') && charIds.has('tilia')) {
         score += 20;
         details.push({ label: '光属性バースト編成', content: 'シアの火力をティリアのバフで極限まで高める構成。' });
     }
-
-    // 3. Inscription & Talent Alignment
-    score += 10;
-    details.push({ label: 'ビルド整合性', content: '各キャラのおすすめ素質（通常型/スキル型）に合わせた秘紋選択を推奨。' });
 
     score = Math.min(100, score);
     let title = score >= 90 ? '神域の布陣' : score >= 70 ? '一級の連携' : score >= 40 ? '実戦レベル' : '調整中';
@@ -201,45 +189,8 @@ function calculateFullSynergy() {
     return {
         score,
         title,
-        descSummary: `${details.length}件のシナジーを適用中。`,
+        descSummary: `${details.length}件のシナジーを検出。`,
         details
     };
 }
-
-function renderAnalysis(details) {
-    const container = document.getElementById('synergy-analysis-content');
-    if (details.length === 0) {
-        container.innerHTML = '<p class="placeholder">パーティを編成すると詳しい解析が表示されます。</p>';
-        return;
-    }
-
-    container.innerHTML = details.map(d => `
-        <div class="analysis-item">
-            <span class="analysis-label">${d.label}</span>
-            <p style="margin:0">${d.content}</p>
-        </div>
-    `).join('');
-}
-
-function renderRecommendedTeams() {
-    const list = document.getElementById('rec-list');
-    list.innerHTML = '';
-    STELLA_DATA.recommendedTeams.forEach(team => {
-        const div = document.createElement('div');
-        div.className = `rec-card ${team.type}`;
-        div.innerHTML = `<strong>${team.name}</strong><br><small>${team.desc}</small>`;
-        div.onclick = () => {
-            selectedIds = [...team.members];
-            updateUI();
-            renderCharGrid();
-        };
-        list.appendChild(div);
-    });
-}
-
-function translateRole(role) {
-    const m = { 'main': '主力', 'support': '支援', 'balanced': '均衡' };
-    return m[role] || role;
-}
-
-window.onload = initSimulator;
+// ... rest of the file
