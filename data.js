@@ -5,53 +5,56 @@ const STELLA_DATA = {
             id: 'kohaku', name: 'コハク', attr: 'fire', role: 'main', mark: 'trigger',
             tags: ['通常攻撃', '主力スキル'],
             recInscriptions: ['fire_dmg', 'skill_boost'],
-            talentPaths: [
-                { name: '通常攻撃型', desc: '騰蛇を生成し、手数で攻めるビルド。' },
-                { name: '主力スキル型', desc: 'スキルの爆発力を高めるビルド。' }
-            ],
-            recTalent: '通常攻撃型 (騰蛇生成)'
+            recTalent: '通常攻撃型 (騰蛇生成)',
+            recLossReco: ['ハナビ', '迷いを断つ拳', '白紙の航海図']
         },
         {
             id: 'fuyuka', name: 'フユカ', attr: 'fire', role: 'main', mark: 'trigger',
-            tags: ['会心特化', '主力スキル'],
+            tags: ['会心特化', '通常攻撃'],
             recInscriptions: ['fire_dmg', 'crit_boost'],
-            talentPaths: [
-                { name: '会心強化型', desc: '会心時の追加ダメージを狙うビルド。' },
-                { name: '属性共鳴型', desc: '火属性3体編成時に火力が最大化。' }
-            ],
-            recTalent: '会心強化型'
+            recTalent: '主力→通常攻撃強化型',
+            recLossReco: ['ハナビ', '迷いを断つ拳', '白紙の航海図']
         },
-        { id: 'cheeshea', name: 'チーシア', attr: 'fire', role: 'balanced', mark: 'setter', tags: ['召喚'], recInscriptions: ['fire_dmg', 'mark_boost'], recTalent: '召喚物強化' },
-        { id: 'flora', name: 'フローラ', attr: 'fire', role: 'support', mark: 'setter', tags: ['バフ'], recInscriptions: ['fire_dmg', 'mark_boost'], recTalent: '支援バフ強化' },
+        { id: 'cheeshea', name: 'チーシア', attr: 'fire', role: 'balanced', mark: 'setter', tags: ['召喚'], recInscriptions: ['fire_dmg', 'mark_boost'], recTalent: '支援召喚強化' },
+        { id: 'flora', name: 'フローラ', attr: 'fire', role: 'support', mark: 'setter', tags: ['バフ'], recInscriptions: ['fire_dmg', 'mark_boost'], recTalent: '火属性攻撃支援' },
 
         // Wind
-        { id: 'nanoha', name: 'ナノハ', attr: 'wind', role: 'main', mark: 'trigger', tags: ['通常攻撃'], recInscriptions: ['wind_dmg', 'skill_boost'], recTalent: '距離ボーナス型' },
-        { id: 'seina', name: 'セイナ', attr: 'wind', role: 'main', mark: 'trigger', tags: ['高威力スキル'], recInscriptions: ['wind_dmg', 'skill_boost'], recTalent: 'スキルチャージ型' },
+        { id: 'nanoha', name: 'ナノハ', attr: 'wind', role: 'main', mark: 'trigger', tags: ['連射', '通常攻撃'], recInscriptions: ['wind_dmg', 'skill_boost'], recTalent: '遠距離特化型' },
+        { id: 'seina', name: 'セイナ', attr: 'wind', role: 'main', mark: 'trigger', tags: ['高威力', 'チャージ'], recInscriptions: ['wind_dmg', 'skill_boost'], recTalent: 'チャージスキル型' },
 
         // Light
-        { id: 'shiya', name: 'シア', attr: 'light', role: 'main', mark: 'trigger', tags: ['超高火力', '必殺技'], recInscriptions: ['light_dmg', 'crit_boost'], recTalent: '必殺技貫通型' },
-        { id: 'minerva', name: 'ミネルバ', attr: 'light', role: 'support', mark: 'setter', tags: ['印付与'], recInscriptions: ['light_dmg', 'mark_boost'], recTalent: '拘束シナジー型' },
-        { id: 'tilia', name: 'ティリア', attr: 'light', role: 'support', mark: 'setter', tags: ['攻撃力バフ'], recInscriptions: ['mark_boost', 'skill_boost'], recTalent: '広域バフ型' },
+        {
+            id: 'shiya', name: 'シア', attr: 'light', role: 'main', mark: 'trigger',
+            tags: ['通常攻撃', '召喚', '必殺技'],
+            recInscriptions: ['light_dmg', 'crit_boost'],
+            recTalent: 'ドローン・通常攻撃ハイブリッド型',
+            recLossReco: ['波にゆられて', '夕涼み', '清浄なる祈り']
+        },
+        { id: 'minerva', name: 'ミネルバ', attr: 'light', role: 'support', mark: 'setter', tags: ['印付与', '拘束'], recInscriptions: ['light_dmg', 'mark_boost'], recTalent: '広域拘束支援' },
+        { id: 'tilia', name: 'ティリア', attr: 'light', role: 'support', mark: 'setter', tags: ['攻撃力バフ'], recInscriptions: ['mark_boost', 'skill_boost'], recTalent: '必須級・属性攻撃バフ' },
 
         // Dark
-        { id: 'fielen', name: 'フィレン', attr: 'dark', role: 'main', mark: 'trigger', tags: ['分身', '多段攻撃'], recInscriptions: ['dark_dmg', 'skill_boost'], recTalent: '分身共鳴型' },
+        {
+            id: 'fielen', name: 'フィレン', attr: 'dark', role: 'main', mark: 'trigger',
+            tags: ['召喚', '多段攻撃', '分身'],
+            recInscriptions: ['dark_dmg', 'skill_boost'],
+            recTalent: 'シャドウサーヴァント特化型',
+            recLossReco: ['常闇の招待状', '影のささやき', '深淵の瞳']
+        },
         { id: 'caramel', name: 'キャラメル', attr: 'dark', role: 'main', mark: 'trigger', tags: ['範囲火力'], recInscriptions: ['dark_dmg', 'skill_boost'], recTalent: 'スピーカー設置型' },
+        { id: 'misty', name: 'ミスティ', attr: 'dark', role: 'balanced', mark: 'setter', tags: ['召喚'], recInscriptions: ['dark_dmg', 'mark_boost'], recTalent: '追撃サポート型' },
 
         // Water
         {
             id: 'chitose', name: 'チトセ', attr: 'water', role: 'main', mark: 'trigger',
             tags: ['高機動', '分身', '通常攻撃'],
             recInscriptions: ['water_dmg', 'skill_boost'],
-            talentPaths: [
-                { name: '通常攻撃型', desc: '騰蛇を生成し、通常攻撃の最終段で印を自動化。' },
-                { name: '主力スキル型', desc: 'スキルの2段階目発動と爆発力を重視。' }
-            ],
             recTalent: '通常攻撃型 (騰蛇生成)',
-            recLossReco: ['晴天の彩花', '古池の水音', '一期一会']
+            recLossReco: ['晴天の彩花', '古池の水音', '昼下がりの雨']
         },
         { id: 'shimiao', name: 'シーミャオ', attr: 'water', role: 'main', mark: 'trigger', tags: ['2段階スキル'], recInscriptions: ['water_dmg', 'skill_boost'], recTalent: 'スキルバースト型' },
-        { id: 'freesia', name: 'フリージア', attr: 'water', role: 'support', mark: 'setter', tags: ['回復'], recInscriptions: ['water_dmg', 'mark_boost'], recTalent: 'シールド爆発型' },
-        { id: 'teresa', name: 'テレサ', attr: 'water', role: 'support', mark: 'setter', tags: ['強力バフ'], recInscriptions: ['water_dmg', 'mark_boost'], recTalent: '会心支援型' },
+        { id: 'freesia', name: 'フリージア', attr: 'water', role: 'support', mark: 'setter', tags: ['シールド', '回復'], recInscriptions: ['water_dmg', 'mark_boost'], recTalent: '通常時・水印自動付与' },
+        { id: 'teresa', name: 'テレサ', attr: 'water', role: 'support', mark: 'setter', tags: ['強力バフ'], recInscriptions: ['water_dmg', 'mark_boost'], recTalent: '会心・属性ダメージ支援' },
 
         // Earth
         { id: 'gray', name: 'グレイ', attr: 'earth', role: 'main', mark: 'trigger', tags: ['高耐久'], recInscriptions: ['earth_dmg', 'skill_boost'], recTalent: '耐久反撃型' },
