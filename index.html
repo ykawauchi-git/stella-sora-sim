@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stella Sora - Party Simulator</title>
+    <!-- OGP Tags for sharing -->
+    <meta property="og:title" content="Stella Sora - Party Simulator">
+    <meta property="og:description" content="ステラソラ 星の塔・最適パーティ・シナジーシミュレーター">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="sim-container">
+        <h1>STELLA SORA SIM</h1>
+
+        <div class="main-layout">
+            <div class="content-left">
+                <!-- Party Selection Area -->
+                <div class="party-preview">
+                    <div class="slot" id="slot-0"><span>?</span></div>
+                    <div class="slot" id="slot-1"><span>?</span></div>
+                    <div class="slot" id="slot-2"><span>?</span></div>
+                </div>
+
+                <!-- Star Tower Section -->
+                <div class="tower-section">
+                    <div class="section-header">
+                        <h2>星の塔：取得カード (素質)</h2>
+                        <button class="btn-clear" onclick="clearTowerCards()">リセット</button>
+                    </div>
+                    <div class="tower-grid" id="tower-grid">
+                        <!-- Loaded by JS -->
+                    </div>
+                    <div class="recommended-cards" id="rec-tower-cards">
+                        <small>おすすめの取得:</small>
+                        <div class="rec-tags" id="rec-tags-container"></div>
+                    </div>
+                </div>
+
+                <!-- Selection Grid -->
+                <div class="selection-area">
+                    <h2>キャラクター選択</h2>
+                    <div class="char-grid" id="char-grid"></div>
+                </div>
+            </div>
+
+            <div class="content-right">
+                <!-- Result Dashboard -->
+                <div class="result-panel">
+                    <h2 id="synergy-title">編成を選択してください</h2>
+                    <div class="score-bar">
+                        <div class="score-fill" id="score-fill"></div>
+                    </div>
+
+                    <div class="analysis-box">
+                        <h3>シナジー詳細解析</h3>
+                        <div id="synergy-analysis-content">
+                            <p class="placeholder">パーティを編成すると詳しい解析が表示されます。</p>
+                        </div>
+                    </div>
+
+                    <!-- Recommended LossReco Panel -->
+                    <div class="lossreco-panel" id="lossreco-panel">
+                        <h3>推奨ロスレコ編成</h3>
+                        <div id="lossreco-content">
+                            <p style="opacity: 0.6; font-size: 0.8rem;">パーティ編成後に提案されます。</p>
+                        </div>
+                    </div>
+
+                    <p id="synergy-desc" style="margin-top:20px; font-size: 0.9rem; opacity: 0.8;">-</p>
+                </div>
+
+                <!-- Recommended Teams -->
+                <div class="recommended-section">
+                    <h2>おすすめ編成</h2>
+                    <div class="rec-list" id="rec-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
