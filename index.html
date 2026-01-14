@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stella Sora - Party Simulator</title>
-    <!-- OGP Tags for sharing -->
+    <!-- OGP Tags -->
     <meta property="og:title" content="Stella Sora - Party Simulator">
-    <meta property="og:description" content="ステラソラ 星の塔・最適パーティ・シナジーシミュレーター">
-    <meta property="og:type" content="website">
+    <meta property="og:description" content="全キャラ対応の構成シミュレーター。おすすめの素質・秘紋・ロスレコを一覧表示。">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,44 +21,50 @@
 
         <div class="main-layout">
             <div class="content-left">
-                <!-- Party Selection Area -->
-                <div class="party-preview">
-                    <div class="slot" id="slot-0"><span>?</span></div>
-                    <div class="slot" id="slot-1"><span>?</span></div>
-                    <div class="slot" id="slot-2"><span>?</span></div>
+                <!-- Party Build Guide (Game8 Style) -->
+                <div class="build-guide-panel" id="build-guide-panel">
+                    <div class="section-header">
+                        <h2>推奨ビルド編成</h2>
+                    </div>
+
+                    <!-- Top Character Cards -->
+                    <div class="char-build-cards">
+                        <div class="slot-card" id="slot-card-0">
+                            <div class="badge">主力</div>
+                            <div class="icon-frame">?</div>
+                            <div class="name">未選択</div>
+                            <div class="role-desc">-</div>
+                        </div>
+                        <div class="slot-card" id="slot-card-1">
+                            <div class="badge">支援</div>
+                            <div class="icon-frame">?</div>
+                            <div class="name">未選択</div>
+                            <div class="role-desc">-</div>
+                        </div>
+                        <div class="slot-card" id="slot-card-2">
+                            <div class="badge">支援</div>
+                            <div class="icon-frame">?</div>
+                            <div class="name">未選択</div>
+                            <div class="role-desc">-</div>
+                        </div>
+                    </div>
+
+                    <!-- Talent Rows -->
+                    <div class="talent-rows" id="talent-rows-container">
+                        <!-- Rendered by JS -->
+                    </div>
                 </div>
 
                 <!-- Star Tower Section -->
                 <div class="tower-section">
                     <div class="section-header">
-                        <h2>星の塔：取得カード (素質)</h2>
+                        <h2>星の塔：取得カード</h2>
                         <button class="btn-clear" onclick="clearTowerCards()">リセット</button>
                     </div>
-                    <div class="tower-grid" id="tower-grid">
-                        <!-- Loaded by JS -->
-                    </div>
+                    <div class="tower-grid" id="tower-grid"></div>
                     <div class="recommended-cards" id="rec-tower-cards">
                         <small>おすすめの取得:</small>
                         <div class="rec-tags" id="rec-tags-container"></div>
-                    </div>
-                </div>
-
-                <!-- Talent Preview Section (NEW) -->
-                <div class="talent-preview-section" id="talent-preview-section">
-                    <div class="section-header">
-                        <h2>素質プレビュー</h2>
-                    </div>
-                    <div class="talent-card-container">
-                        <div class="talent-build-row b1-row">
-                            <h3 id="b1-title">特化構築1</h3>
-                            <p id="b1-desc" class="build-desc">-</p>
-                            <div class="card-grid" id="b1-cards"></div>
-                        </div>
-                        <div class="talent-build-row b2-row">
-                            <h3 id="b2-title">特化構築2</h3>
-                            <p id="b2-desc" class="build-desc">-</p>
-                            <div class="card-grid" id="b2-cards"></div>
-                        </div>
                     </div>
                 </div>
 
@@ -81,19 +86,16 @@
                     <div class="analysis-box">
                         <h3>シナジー詳細解析</h3>
                         <div id="synergy-analysis-content">
-                            <p class="placeholder">パーティを編成すると詳しい解析が表示されます。</p>
+                            <p class="placeholder">-</p>
                         </div>
                     </div>
 
-                    <!-- Recommended LossReco Panel -->
-                    <div class="lossreco-panel" id="lossreco-panel">
+                    <div class="lossreco-panel">
                         <h3>推奨ロスレコ編成</h3>
                         <div id="lossreco-content">
-                            <p style="opacity: 0.6; font-size: 0.8rem;">パーティ編成後に提案されます。</p>
+                            <p class="placeholder">-</p>
                         </div>
                     </div>
-
-                    <p id="synergy-desc" style="margin-top:20px; font-size: 0.9rem; opacity: 0.8;">-</p>
                 </div>
 
                 <!-- Recommended Teams -->
@@ -103,6 +105,12 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Dynamic Tooltip -->
+    <div id="tooltip-box" class="tooltip-box">
+        <div class="tt-title"></div>
+        <div class="tt-content"></div>
     </div>
 
     <script src="data.js"></script>
