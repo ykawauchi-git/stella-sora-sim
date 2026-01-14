@@ -37,7 +37,6 @@ h1 {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 30px;
-    letter-spacing: 2px;
 }
 
 /* Build Guide Panel */
@@ -84,8 +83,6 @@ h1 {
     background: #ff4d4d;
 }
 
-/* Main アタッカー */
-
 .slot-card .icon-frame {
     width: 80px;
     height: 80px;
@@ -115,97 +112,161 @@ h1 {
 .talent-rows {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
 }
 
 .t-row {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.2);
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .t-row-label {
     font-size: 0.7rem;
     font-weight: bold;
     opacity: 0.7;
-    width: 120px;
+    width: 140px;
 }
 
 .t-icon-list {
     display: flex;
-    gap: 12px;
+    gap: 15px;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
-.t-card-mini {
+/* Stella Sora Card Design */
+.stella-card {
+    width: 65px;
+    height: 95px;
+    background: #fff;
+    border-radius: 6px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 60px;
-    gap: 6px;
+    position: relative;
     cursor: help;
-    transition: transform 0.2s;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    user-select: none;
 }
 
-.t-card-mini:hover {
-    transform: translateY(-4px) scale(1.05);
+.stella-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    z-index: 10;
 }
 
-.t-icon-inner {
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
+.stella-card .card-header {
+    height: 65%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
-    font-weight: bold;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+    position: relative;
 }
 
-.t-card-mini.pink .t-icon-inner {
-    border-color: #ff4db8;
-    background: linear-gradient(135deg, #ff4db866, #ff4db822);
+.stella-card.pink .card-header {
+    background: linear-gradient(180deg, #ff66cc 0%, #ff4db8 100%);
 }
 
-.t-card-mini.blue .t-icon-inner {
-    border-color: #4de0ff;
-    background: linear-gradient(135deg, #4de0ff66, #4de0ff22);
+.stella-card.blue .card-header {
+    background: linear-gradient(180deg, #66d9ff 0%, #4de0ff 100%);
 }
 
-.t-card-mini.yellow .t-icon-inner {
-    border-color: #ffd700;
-    background: linear-gradient(135deg, #ffd70066, #ffd70022);
+.stella-card.yellow .card-header {
+    background: linear-gradient(180deg, #ffe066 0%, #fdd835 100%);
 }
 
-.t-name-label {
+.card-icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.card-separator {
+    position: absolute;
+    top: 60%;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: #fff;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    z-index: 2;
+}
+
+.card-footer {
+    height: 35%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 4px 0 4px;
+    z-index: 3;
+}
+
+.card-footer span {
     font-size: 0.55rem;
-    color: var(--text);
+    color: #333;
+    font-weight: 800;
     text-align: center;
     line-height: 1.1;
-    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.star-deco {
+    position: absolute;
+    font-size: 0.5rem;
+    color: #fff;
+    opacity: 0.8;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.star-deco.tl {
+    top: 2px;
+    left: 2px;
+}
+
+.star-deco.tr {
+    top: 2px;
+    right: 2px;
+}
+
+.star-deco.bl {
+    bottom: 2px;
+    left: 2px;
+    color: #ddd;
+}
+
+.star-deco.br {
+    bottom: 2px;
+    right: 2px;
+    color: #ddd;
 }
 
 /* Tooltip */
 .tooltip-box {
     position: fixed;
     pointer-events: none;
-    z-index: 1000;
-    background: rgba(10, 10, 15, 0.95);
-    backdrop-filter: blur(10px);
+    z-index: 9999;
+    background: rgba(10, 10, 25, 0.98);
+    backdrop-filter: blur(15px);
     border: 1px solid var(--primary);
     border-radius: 12px;
-    padding: 14px;
-    width: 240px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    padding: 16px;
+    width: 250px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 242, 255, 0.2);
     opacity: 0;
-    transform: scale(0.95) translateY(10px);
+    transform: scale(0.92) translateY(10px);
     visibility: hidden;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tooltip-box.visible {
@@ -218,18 +279,18 @@ h1 {
     font-weight: bold;
     color: var(--primary);
     font-size: 0.9rem;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     border-bottom: 1px solid var(--glass);
-    padding-bottom: 3px;
+    padding-bottom: 5px;
 }
 
 .tt-content {
-    font-size: 0.8rem;
-    line-height: 1.4;
+    font-size: 0.85rem;
+    line-height: 1.5;
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* Character Selection */
+/* Selection Grid */
 .char-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -257,7 +318,7 @@ h1 {
     opacity: 0.6;
 }
 
-/* Other Panels */
+/* Global Utilities */
 .tower-section {
     background: var(--surface);
     padding: 20px;
